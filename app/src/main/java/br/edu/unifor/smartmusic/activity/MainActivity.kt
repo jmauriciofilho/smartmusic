@@ -16,11 +16,9 @@ import android.Manifest
 import android.app.Activity
 import android.support.design.widget.FloatingActionButton
 import android.support.v4.app.ActivityCompat
-import android.view.View
-import br.edu.unifor.smartmusic.util.PlayerMusic
 
 
-class MainActivity : AppCompatActivity(), View.OnClickListener {
+class MainActivity : AppCompatActivity(){
 
     private lateinit var mMusics: RecyclerView
 
@@ -28,8 +26,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mRecyclerViewLayoutManager: LinearLayoutManager
 
     private lateinit var musics: MutableList<Music>
-
-    private lateinit var player: PlayerMusic
 
     private lateinit var mPlayBtn: FloatingActionButton
     private lateinit var mPauseBtn: FloatingActionButton
@@ -40,9 +36,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
 
         setupPermissions(this)
 
+        mPlayBtn = findViewById(R.id.play_btn)
+        mPauseBtn = findViewById(R.id.pause_btn)
+
         musics = getMp3Songs(this).toMutableList()
 
-        mRecyclerViewAdapter = MusicAdapter(this, musics)
+        mRecyclerViewAdapter = MusicAdapter(this, musics, MainActivity@this)
         mRecyclerViewLayoutManager = LinearLayoutManager(this)
 
         mMusics = findViewById<RecyclerView>(R.id.recycler_view_musics).apply {
@@ -51,26 +50,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
             adapter = mRecyclerViewAdapter
         }
 
-        mPlayBtn = findViewById(R.id.play_btn)
-        mPlayBtn.setOnClickListener(this)
-
-        mPauseBtn = findViewById(R.id.pause_btn)
-        mPauseBtn.setOnClickListener(this)
-
-        player = PlayerMusic(this)
-
-    }
-
-    override fun onClick(v: View) {
-        when(v.id){
-            R.id.play_btn -> {
-                player.play()
-            }
-
-            R.id.pause_btn -> {
-                player.pause()
-            }
-        }
     }
 
     private fun getMp3Songs(ctx: Context): List<Music> {
