@@ -3,26 +3,35 @@ package br.edu.unifor.smartmusic.util
 import android.content.Context
 import android.media.AudioManager
 import android.media.MediaPlayer
+import android.util.Log
 import br.edu.unifor.smartmusic.entity.Music
 
-class PlayerMusic(val context: Context) {
+class PlayerMusic(val musics: List<Music>) {
 
-    private val mediaPlayer = MediaPlayer()
+    private var mediaPlayer = MediaPlayer()
 
-    fun play(music: Music){
-        val uri = music.uri
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
-        mediaPlayer.setDataSource(uri)
-        mediaPlayer.prepare()
-        mediaPlayer.start()
+    fun play(id: Int){
+
+        for (music in musics){
+            if (music._id == id){
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
+                mediaPlayer.setDataSource(music.uri)
+                mediaPlayer.prepare()
+                mediaPlayer.start()
+            }
+        }
+
     }
 
-    fun pause(music: Music){
-        val uri = music.uri
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
-        mediaPlayer.setDataSource(uri)
-        mediaPlayer.prepare()
-        mediaPlayer.pause()
+    fun pause(id: Int){
+        for (music in musics){
+            if (music._id == id){
+                mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC)
+                mediaPlayer.setDataSource(music.uri)
+                mediaPlayer.prepare()
+                mediaPlayer.pause()
+            }
+        }
     }
 
     fun avancar(){

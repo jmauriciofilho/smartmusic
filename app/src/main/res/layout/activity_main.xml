@@ -20,8 +20,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/voltar_btn"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
@@ -29,16 +29,16 @@
         app:backgroundTint="@android:color/holo_blue_dark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/pause_btn"
-        app:layout_constraintHorizontal_bias="0.979"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@android:drawable/ic_media_previous" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/avancar_btn"
-        android:layout_width="40dp"
-        android:layout_height="wrap_content"
+        android:layout_width="54dp"
+        android:layout_height="54dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="52dp"
+        android:layout_marginEnd="36dp"
         android:clickable="true"
         app:backgroundTint="@android:color/holo_blue_dark"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,8 +47,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/pause_btn"
-        android:layout_width="50dp"
-        android:layout_height="46dp"
+        android:layout_width="59dp"
+        android:layout_height="55dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="12dp"
         android:clickable="true"
@@ -59,8 +59,8 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/stop_btn"
-        android:layout_width="46dp"
-        android:layout_height="46dp"
+        android:layout_width="60dp"
+        android:layout_height="54dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="12dp"
         android:clickable="true"
