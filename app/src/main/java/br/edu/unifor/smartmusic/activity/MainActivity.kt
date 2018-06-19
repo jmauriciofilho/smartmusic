@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var mStopBtn: FloatingActionButton
     private lateinit var mAvancarBtn: FloatingActionButton
     private lateinit var mVoltarBtn: FloatingActionButton
-
+    val MY_PERMISSIONS_REQUEST_READ_STORAGE = 1
     private lateinit var mpService: Intent
 
     private var isPause = false
@@ -79,17 +79,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         mStopBtn = findViewById(R.id.stop_btn)
         mAvancarBtn = findViewById(R.id.avancar_btn)
         mVoltarBtn = findViewById(R.id.voltar_btn)
-
-        musics = getMp3Songs(this).toMutableList()
-
-        mRecyclerViewAdapter = MusicAdapter(this, musics, MainActivity@this)
-        mRecyclerViewLayoutManager = LinearLayoutManager(this)
-
-        mMusics = findViewById<RecyclerView>(R.id.recycler_view_musics).apply {
-            setHasFixedSize(false)
-            layoutManager = mRecyclerViewLayoutManager
-            adapter = mRecyclerViewAdapter
-        }
 
         mPlayBtn.setOnClickListener(this)
         mPauseBtn.setOnClickListener(this)
@@ -156,11 +145,46 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
         if (permission != PackageManager.PERMISSION_GRANTED) {
             Log.i("Permission", "Permission to record denied")
             makeRequest(context)
+        }else{
+            musics = getMp3Songs(this).toMutableList()
+            mRecyclerViewAdapter = MusicAdapter(this, musics, MainActivity@this)
+            mRecyclerViewLayoutManager = LinearLayoutManager(this)
+
+            mMusics = findViewById<RecyclerView>(R.id.recycler_view_musics).apply {
+                setHasFixedSize(false)
+                layoutManager = mRecyclerViewLayoutManager
+                adapter = mRecyclerViewAdapter
+            }
         }
     }
 
     private fun makeRequest(context: Context) {
         ActivityCompat.requestPermissions(context as Activity,
-                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), 22)
+                arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), MY_PERMISSIONS_REQUEST_READ_STORAGE)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        when (requestCode) {
+            MY_PERMISSIONS_REQUEST_READ_STORAGE -> {
+                Log.d("REQUEST ", requestCode.toString())
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    musics = getMp3Songs(this).toMutableList()
+                    mRecyclerViewAdapter = MusicAdapter(this, musics, MainActivity@this)
+                    mRecyclerViewLayoutManager = LinearLayoutManager(this)
+
+                    mMusics = findViewById<RecyclerView>(R.id.recycler_view_musics).apply {
+                        setHasFixedSize(false)
+                        layoutManager = mRecyclerViewLayoutManager
+                        adapter = mRecyclerViewAdapter
+                    }
+                    mRecyclerViewAdapter.notifyDataSetChanged()
+                } else {
+                    makeRequest(this)
+                    Log.d("REQUEST ", requestCode.toString())
+                }
+                return
+            }
+        }// other 'case' lines to check for other
+        // permissions this app might request
     }
 }
