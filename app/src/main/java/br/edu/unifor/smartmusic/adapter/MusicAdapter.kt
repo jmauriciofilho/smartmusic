@@ -15,12 +15,10 @@ import br.edu.unifor.smartmusic.services.MediaPlayerService
 
 class MusicAdapter(val context: Context, val musics: List<Music>, val activity: MainActivity) : RecyclerView.Adapter<MusicAdapter.MusicViewHolder>() {
 
-    class MusicViewHolder(itemView: View, activity: MainActivity, val context: Context) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class MusicViewHolder(itemView: View,val activity: MainActivity, val context: Context) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
         val mNameMusic: TextView
         val mAutorMusic: TextView
-        val mPlaybtn: FloatingActionButton
-        val mPausebtn: FloatingActionButton
         val mpService: Intent
 
         var id: Int
@@ -28,31 +26,19 @@ class MusicAdapter(val context: Context, val musics: List<Music>, val activity: 
         init {
             mNameMusic = itemView.findViewById(R.id.music_name)
             mAutorMusic = itemView.findViewById(R.id.autor_music)
-            mPlaybtn = activity.findViewById(R.id.play_btn)
-            mPausebtn = activity.findViewById(R.id.pause_btn)
             mpService = Intent(context, MediaPlayerService::class.java)
 
             id = 0
 
             itemView.setOnClickListener(this)
-
-            mPlaybtn.setOnClickListener(this)
-            mPausebtn.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
-            when(v.id){
-                R.id.play_btn -> {
-                    context.startService(mpService)
-                }
-                R.id.pause_btn ->{
-                    context.startService(mpService)
-                }
-                else -> {
-                    context.startService(mpService)
-                }
-            }
-
+            val service = Intent(activity, MediaPlayerService::class.java)
+            service.putExtra("position", id)
+            activity.position = id
+            activity.stopService(service)
+            activity.startService(service)
         }
     }
 
@@ -68,7 +54,7 @@ class MusicAdapter(val context: Context, val musics: List<Music>, val activity: 
     override fun onBindViewHolder(holder: MusicViewHolder, position: Int) {
         holder.mNameMusic.text = musics[position].nome
         holder.mAutorMusic.text = musics[position].autor
-        holder.id = musics[position]._id
+        holder.id = position
     }
 
 }
